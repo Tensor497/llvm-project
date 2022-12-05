@@ -59,6 +59,7 @@ StringRef Triple::getArchTypeName(ArchType Kind) {
   case ppc64le:        return "powerpc64le";
   case ppc:            return "powerpc";
   case ppcle:          return "powerpcle";
+  case rasm:           return "rasm";
   case r600:           return "r600";
   case renderscript32: return "renderscript32";
   case renderscript64: return "renderscript64";
@@ -122,6 +123,8 @@ StringRef Triple::getArchTypePrefix(ArchType Kind) {
 
   case amdgcn:      return "amdgcn";
   case r600:        return "r600";
+
+  case rasm:        return "rasm";
 
   case bpfel:
   case bpfeb:       return "bpf";
@@ -342,6 +345,7 @@ Triple::ArchType Triple::getArchTypeForLLVMName(StringRef Name) {
     .Case("sparcv9", sparcv9)
     .Case("s390x", systemz)
     .Case("systemz", systemz)
+    .Case("rasm", rasm)
     .Case("tce", tce)
     .Case("tcele", tcele)
     .Case("thumb", thumb)
@@ -469,6 +473,7 @@ static Triple::ArchType parseArch(StringRef ArchName) {
     .Case("avr", Triple::avr)
     .Case("m68k", Triple::m68k)
     .Case("msp430", Triple::msp430)
+    .Case("rasm", Triple::rasm)
     .Cases("mips", "mipseb", "mipsallegrex", "mipsisa32r6",
            "mipsr6", Triple::mips)
     .Cases("mipsel", "mipsallegrexel", "mipsisa32r6el", "mipsr6el",
@@ -834,6 +839,7 @@ static Triple::ObjectFormatType getDefaultFormat(const Triple &T) {
   case Triple::ppc64le:
   case Triple::ppcle:
   case Triple::r600:
+  case Triple::rasm:
   case Triple::renderscript32:
   case Triple::renderscript64:
   case Triple::riscv32:
@@ -1393,6 +1399,7 @@ static unsigned getArchPointerBitWidth(llvm::Triple::ArchType Arch) {
 
   case llvm::Triple::avr:
   case llvm::Triple::msp430:
+  case llvm::Triple::rasm:
     return 16;
 
   case llvm::Triple::aarch64_32:
@@ -1484,7 +1491,7 @@ Triple Triple::get32BitArchVariant() const {
   case Triple::ve:
     T.setArch(UnknownArch);
     break;
-
+  case Triple::rasm:
   case Triple::aarch64_32:
   case Triple::amdil:
   case Triple::arc:

@@ -420,6 +420,7 @@ set(LLVM_ALL_TARGETS
   MSP430
   NVPTX
   PowerPC
+  RASM
   RISCV
   Sparc
   SystemZ

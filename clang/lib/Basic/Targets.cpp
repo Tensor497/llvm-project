@@ -17,6 +17,7 @@
 #include "Targets/AMDGPU.h"
 #include "Targets/ARC.h"
 #include "Targets/ARM.h"
+#include "Targets/RASM.h"
 #include "Targets/AVR.h"
 #include "Targets/BPF.h"
 #include "Targets/CSKY.h"
@@ -115,6 +116,9 @@ TargetInfo *AllocateTarget(const llvm::Triple &Triple,
   switch (Triple.getArch()) {
   default:
     return nullptr;
+
+  case llvm::Triple::rasm:
+    return new RASMTargetInfo(Triple, Opts);
 
   case llvm::Triple::arc:
     return new ARCTargetInfo(Triple, Opts);
